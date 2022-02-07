@@ -18,10 +18,10 @@ def parse_product(url):
     r = s.get(url)
     title = r.html.find("h1.product_title.entry-title", first = True).text.strip()
     price = r.html.find("p.price", first=True).text.strip().replace("\n", " ")
-    cat = r.html.find(span.posted_in, find=True).text.strip()
+    cat = r.html.find("span.posted_in", find=True).text.strip()
     try:
         sku = r.html.find("span.sku", first=True).text.strip()
-    except Attribute as err:
+    except AttributeError as err:
         sku = "None"
         # print(sku)
 
@@ -38,7 +38,7 @@ def save_csv(result):
     keys = result[0].key()
 
     with open("product.csv", "w") as f:
-        dict_writer = cw.DictWriter(f, keys)
+        dict_writer = csv.DictWriter(f, keys)
         dict_writer.writeheader()
         dict_writer.writerows(result)
 
