@@ -5,6 +5,7 @@ s = HTMLSession()
 
 
 def get_product_link(page):
+    # This function returns a list of links that would found in be URL
     url = f"https://themes.woocommerce.com/storefront/product-category/clothing/page/{page}"
     link = []
     r = s.get(url)
@@ -15,6 +16,7 @@ def get_product_link(page):
 
 
 def parse_product(url):
+    # This function is to return a dictionary of parsed data
     r = s.get(url)
     title = r.html.find("h1.product_title.entry-title", first = True).text.strip()
     price = r.html.find("p.price", first=True).text.strip().replace("\n", " ")
@@ -35,6 +37,9 @@ def parse_product(url):
 
 
 def save_csv(result):
+    """
+    This function is about to save the dataframe as csv file
+    """
     keys = result[0].key()
 
     with open("product.csv", "w") as f:
@@ -43,7 +48,7 @@ def save_csv(result):
         dict_writer.writerows(result)
 
 
-def main():
+def main()
     result = []
     for x in range(1, 5):
         print("Getting page", x)
@@ -55,4 +60,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # Executive function
     main()
